@@ -1,0 +1,66 @@
+---
+title: "Diamond Rings"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Ctrl+Shift+Enter*. 
+
+```{r}
+library(s20x)
+data(diamonds.df)
+plot(price~weight, main = "Price vs Weight of Diamonds", data = diamonds.df)
+```
+
+```{r}
+diamonds.fit = lm(price~weight, data = diamonds.df)
+```
+
+
+```{r}
+normcheck(diamonds.fit)
+```
+```{r}
+eovcheck(diamonds.fit)
+```
+
+```{r}
+cooks20x(diamonds.fit)
+```
+```{r}
+confint(diamonds.fit)
+```
+```{r}
+summary(diamonds.fit)
+```
+```{r}
+pred = data.frame("weight"= c(0.3, 1.2))
+predict(diamonds.fit, pred, interval="prediction")
+```
+
+
+**Methods and Assumptions**
+
+The price seems to be linearly changing with the weight of the diamonds, so we use a linear model.
+
+The normality assumptions seems to be satisfied with all the data points being on a line on the Q-Q plot. The variance assumption also seems to be satisfied as seen from the residual plot. The price and weight of the diamond rings being independent to one another is assumed.
+
+There were no observable outliers in our Cook's plot so no data points are removed.
+
+The data is modelled using pricei = B0 + B1 * weighti + ei where ei ~iid N(0, sd^2).
+
+
+**Executive Summary**
+
+We are interested in finding a model between diamond ring prices and their diamond weights in Singaporean retialers based on data collected by lecturer few year ago.
+
+There is a strong positive association between the weight of the diamond and the price of the ring - the heavier the diamond, the higher the price of the ring.
+
+A 0 carat diamond ring seems to be priced on average between -294 and -225 Singaporean Dollars with each carat increase increases the mean price by between 3556 and 3386 Singaporean Dollars.
+
+Our model explains 98% of the variance so it is a really good model for predictions.
+
+We estimate the price for a 0.3 carat diamond ring to be between 790 SGD and 923 SGD.
+
+Our data only has diamond rings weighing up to 0.35 carats so we cannot rely on the predictions for the 1.2 carat-ring.

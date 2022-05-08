@@ -1,0 +1,79 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+4.4.1
+
+A financier was interested in estimating the average number of trading days between the announcement of a merger and the effective date of merger. 38 consummated mergers from 1982 in the USA were
+randomly selected. The variable measured was:
+
+mergerdays: the number of days between announcement and the effective date of the merger.
+
+The dataset used for this analysis can be found in the s20x package.
+
+
+```{r}
+library(s20x)
+data(mergers.df)
+head(mergers.df, 3)
+```
+
+```{r}
+layout20x(1, 2)
+hist(mergers.df$mergerdays)
+boxplot(mergers.df$mergerdays, main = "Boxplot of merger days")
+```
+
+a) Comment briefly on the exploratory analysis of this dataset.
+
+Ans: The median number of days stayed appears to be 89. The spread appears to be around 240 and the data appears to be right skewed.
+
+
+
+```{r}
+layout20x(1, 1)
+summaryStats(mergers.df$mergerdays)
+```
+```{r}
+normcheck(mergers.df$mergerdays)
+```
+
+
+
+b) What can we conclude from the output of normcheck(mergers.df$mergerdays)?
+
+Ans: The data points don't lie on a line on the QQ plot. So, the normality of the data is not valid.
+
+
+c) Suppose we did find a confidence interval for the mean number of days between the announcement
+and actual merger. Would that analysis be valid?
+
+Ans: Yes, as the Central Limit THeorem would apply as we have n=36 observations.
+
+```{r}
+normcheck(log(mergers.df$mergerdays))
+```
+
+d) Has a log transformation improved the situation with regards to modelling assumptions?
+
+Ans: Yes, now the normality of the data seems to be valid as seen from the data points on the line on the QQ plot.
+
+```{r}
+t.test(log(mergers.df$mergerdays))
+```
+```{r}
+exp(t.test(log(mergers.df$mergerdays))$conf.int)
+```
+
+e) What can we conclude from the p-value of the t-test?
+
+Ans: We have strong evidence against the null hypothesis that the median number of days between announcement and the effective date is 0. However, this is not useful to us.
+
+f) Write a brief Executive Summary detailing the findings from this analysis.
+
+Ans: We are interested in finding the number of days between the announcement of a merger and the effective date of the merger for companies from 1982, USA based on 38 mergers.
+
+We had to transform these data in order to perform the analysis. As a consequence, our analysis estimates the median number of days between the two events.
+
+We estimate that the number of days between the two events to be between 79 days and 107 days for mergers in US in 1982.

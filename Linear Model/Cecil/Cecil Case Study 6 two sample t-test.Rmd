@@ -1,0 +1,49 @@
+---
+title: "Case Study 6"
+output: html_notebook
+---
+
+
+```{r}
+library(s20x)
+Cecil.df = read.table("Cecil2Sample.txt", header=TRUE)
+head(Cecil.df)
+```
+```{r}
+par(mfrow=c(1,2))
+boxplot(ThroughTime~Conf, data=Cecil.df)
+onewayPlot(ThroughTime~Conf, data = Cecil.df)
+```
+```{r}
+summaryStats(ThroughTime~Conf, data = Cecil.df)
+```
+
+```{r}
+eovcheck(ThroughTime~Conf, data=Cecil.df)
+```
+```{r}
+normcheck(lm(ThroughTime~Conf, data=Cecil.df))
+```
+```{r}
+t.test(ThroughTime~Conf, data=Cecil.df, var.equal=FALSE)
+```
+
+
+**Methods and Assumptions**
+
+The data is from two independent groups so we use a two-sample t-test.
+
+The through time for the jobs is assumed to be independent of one another. The variance of the two groups are not equal as seen from the residual plot. So, we use a Welch test. The data is slightly right skewed. However, the Central Limit Theorem can be used to assume normality for the population.
+
+The data is therefore modelled as ThroughTimeij = mu + ai + eij where ai is the effect of being in each configuration either changed or unchanged and eij ~ iid N(0, sd^2).
+
+
+**Executive Summary**
+
+We were interested in finding if there was a difference between the through times for packets between the existing design and the new design for Cecil Storage Area Network.
+
+The data used the first 20 jobs sent from Server 26 to Device 7 at the peak time period.
+
+We estimate that the new design was faster by taking time to travel between 1.50*10(4) and 4.52*10^(-5) seconds less than the existing design.
+
+There is significant evidence that the newer design is faster.

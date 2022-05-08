@@ -1,0 +1,57 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Ctrl+Shift+Enter*. 
+
+```{r}
+library(s20x)
+data(toothpaste.df)
+head(toothpaste.df)
+```
+
+```{r}
+ages = with(toothpaste.df, c(purchasers, nonpurchasers))
+buy = rep(c("Yes", "No"), c(20,20))
+buy = factor(buy)
+```
+
+
+```{r}
+boxplot(ages~buy)
+```
+```{r}
+summaryStats(ages~buy)
+```
+
+```{r}
+normcheck(lm(ages~buy))
+```
+```{r}
+eovcheck(ages~buy)
+```
+
+```{r}
+t.test(ages~buy, var.equal=TRUE)
+```
+
+**Methods and Assumption**
+
+We have a numerical measurement made ontwo distinc groups, so we should do a two-sample
+t-test.
+
+We assume the customers are independent of one anothe r. THe equality of variance and Normality assumptions looks to be satisfied. We can use the standard two-sample t-test.
+
+The model fitted is agesij = mu + ai + eij where ai is the effect of whether the person buys Crest toothpaste or not, either purchaser or nonpurchaser, and eij~iidN(0, sd^2).
+
+
+**Executive Summary**
+
+These data were collected to asses whether there was a difference, between purchasers of Crest toothpaste compared to purchasers of other brands, with respect to the age of the person responsible for household toothpaste purchases.
+
+We have observed that the age of the person in the household primarily responsible for toothpaste purchases is, on average younger for Crest purchasers than for non-purchasers.
+
+We estimate that the mean age for purchasers of Crest toothpaste is up to 15.1 years younger than the mean age for non-purchasers of Crest toothpaste.

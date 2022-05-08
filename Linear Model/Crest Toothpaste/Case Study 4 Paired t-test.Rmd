@@ -1,0 +1,45 @@
+---
+title: "Case Study 4"
+output: html_notebook
+---
+
+
+```{r}
+library(s20x)
+data(house.df)
+head(house.df)
+```
+
+```{r}
+priceDiff = house.df$advertised.price - house.df$sell.price
+boxplot(priceDiff)
+```
+```{r}
+summaryStats(priceDiff)
+```
+
+```{r}
+normcheck(priceDiff)
+```
+
+```{r}
+t.test(priceDiff)
+```
+**Methods and Assumptions**
+
+The data is paired, so we use a paired t-test.
+
+The data is assumed to be independent. The points on the Q-Q plot seems to be right-skewed slightly. However, we can use Central Limit Theorem to assume that the data follows normality.
+
+The data is modeled as diffPricei = mu + ei where diffPricei is the difference in the advertised and the actual house price, mu is the mean difference and ei ~iidN(0, sd^2).
+
+
+**Executive Summary**
+
+We were interested in finding out if there was a difference in the advertised price and the selling price for houses in Mt Eden. The data contained 100 random houses.
+
+Since our original data involved two measurement on each house (the advertised price and the selling price), the difference between the two prices for each house has been analysed.
+
+On average, the advertising price was found to be between 22140 NZD and 26475 NZD more than the selling price.
+
+We concluded that there is a significant difference between the mean sale price and the mean advertised price for houses sold in Mt Eden.

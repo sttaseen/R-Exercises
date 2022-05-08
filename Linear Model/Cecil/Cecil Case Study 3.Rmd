@@ -1,0 +1,58 @@
+---
+title: "Cecil Case Study 3"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Ctrl+Shift+Enter*. 
+
+```{r}
+library(s20x)
+cecil.df = read.table('CecilOneSample.txt', head=TRUE)
+head(cecil.df)
+```
+
+```{r}
+InterArrivalTime = c()
+for (i in 2:38){
+  InterArrivalTime[i-1] = cecil.df$StartTime[i]-cecil.df$StartTime[i-1]
+}
+
+layout20x(1,2)
+hist(InterArrivalTime)
+boxplot(InterArrivalTime, main = "Boxplot of the InterArrivalTime")
+
+```
+
+
+```{r}
+normcheck(InterArrivalTime)
+```
+
+
+```{r}
+summaryStats(InterArrivalTime)
+```
+```{r}
+summaryStats(InterArrivalTime*1000)
+```
+
+```{r}
+t.test(InterArrivalTime)
+```
+
+**Methods And Analysis**
+
+We are trying to estimate the mean of one group of data, so we use one sample t-test.
+
+The inter arrival times for the jobs should be independent of each other. The dots being on a straight line on the Q-Q plot suggests that the data follow normality.
+
+We model the data as IAR<sub>i</sub> = μ + epsiloni where μ is the mean in the inter arrival times and epsiloni ~iid N(0, sd^2).
+
+**Executive Summary**
+
+We are interested in estimating the inter arrival times for jobs in the Cecil Storage Area Network by using data from "Server 26" at a peak time. The data contains 38 jobs.
+
+We estimate the mean inter arrival time to be between 129 and 144 microseconds.
+

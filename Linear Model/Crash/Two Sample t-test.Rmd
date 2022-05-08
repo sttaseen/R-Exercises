@@ -1,0 +1,58 @@
+---
+title: "Two Sample t-test"
+output: html_notebook
+---
+
+
+```{r}
+library(s20x)
+
+crash.df = read.table("crash.txt", header=TRUE)
+
+head(crash.df)
+```
+
+
+```{r}
+dHead = with(crash.df, HeadIC[D.P=="Driver"])
+pHead = with(crash.df, HeadIC[D.P=="Passenger"])
+diffHead = dHead-pHead
+```
+```{r}
+length(diffHead)
+```
+
+
+```{r}
+summaryStats(diffHead)
+```
+```{r}
+boxplot(diffHead)
+```
+```{r}
+normcheck(diffHead)
+```
+
+**Methods and Assumptions**
+
+We are attempting to estimate the average difference between the head injury reading between the passenger and the driver.
+
+The model used is the paired sample t-test.
+
+The readings for the passenger and the driver are on the same trial and the trials themselves are independent of each other. The Q-Q plot shows that the data is slight left-skewed, however we can rely on the Central Limit Theorem to justify the Normality assumption.
+
+The model fitted is diffHead<sub>i</sub> = mu<sub>diff</sub> + epsilon<sub>i</sub> where mu<sub>diff</sub> is the mean difference in head injury reading and epsilon ~ iid N(0, sd<sup>2</sup>).
+
+```{r}
+t.test(diffHead)
+```
+
+**Executive Summary**
+
+Using test data from the Health and Safety Commission, we are interested in estimating the mean difference for head injuries between the passenger and the driver for different automobiles on the road. This data is based on 112 automobiles.
+
+Since our data involved two related measurements, the difference between the two head injury readings has been analysed.
+
+We observe that the head injury reading for someone in the driver's seat is higher than for someone in the passenger's seat.
+
+We estimate that the mean difference between for the head injury reading between the driver and the passenger is between 53.48 and 189.96.

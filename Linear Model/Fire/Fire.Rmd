@@ -1,0 +1,77 @@
+---
+title: "Fire Damage"
+output: html_notebook
+---
+
+```{r}
+library(s20x)
+data(fire.df)
+head(fire.df, 3)
+```
+
+```{r}
+plot(damage~distance, data = fire.df)
+```
+
+
+```{r}
+data.fit = lm(damage~distance, data = fire.df)
+```
+
+```{r}
+eovcheck(data.fit)
+```
+
+```{r}
+normcheck(data.fit)
+```
+
+
+
+```{r}
+cooks20x(data.fit)
+```
+
+```{r}
+summary(data.fit)
+```
+```{r}
+confint(data.fit)
+```
+```{r}
+data.fit2 <- lm(damage~distance, data = fire.df[-10, ])
+```
+
+```{r}
+summary(data.fit2)
+```
+```{r}
+pred.df = data.frame(distance = c(1,4))
+```
+
+```{r}
+predict(data.fit, pred.df, interval = "prediction")
+```
+
+**Methods and Assumption Checks**
+
+A scatter plot of damage vs distance showed a linear relationship so a linear model was fitted.
+
+Th equality of variance and normality assumptions appear to be satisfied. A slight trend in residual plot wa sobserved but does not appear to be of major concern. We have a random sample of fires so the indepence assumption should also be satisfied.
+
+Observation 10 showed up of concern in the Cooks plot but removing it didn't change the parameters by one standard error, so it wasn't dropped.
+
+Our final model is damagei = B0 + B1 * distancei + ei where ei ~iid N(0, sd^2).
+
+
+**Executive Summary**
+
+An insurace company wanted to be able to predict fire damage in dollars in relation to the distance away the house is from a fire station.
+
+We find that the further away a house is from a fire station the more fire damage it experiences.
+
+We estimate that if a house on fire is right next to a fire station, the mean fire damage is between $7200 and $13300. We estimate that for each additional mile, this increases by between $4100 and $5100.
+
+Our model explains 92% of the variation in house fire damage and should therefore be a reasonable model for prediction.
+
+Using our model, we predict that if a new fire occurs in a house 1 mile away from the fire station the damage will be between $9700 and % 20700. For a house that is 4 miles away from the fire station, the we predict the damage will be between $24800 and $35200.

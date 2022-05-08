@@ -1,0 +1,97 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+**4.4.3 **
+
+Failures in aircraft gas turbine engines due to high cycle fatigue is a pervasive problem. A single crystal nickel base superalloy was designed and manufactured to address this problem. We are interested in fitting a model to estimate mean cycles to failure from strain amplitude for turbine blades made of this new material.
+
+The variables recorded are:
+*Strampl* strain amplitude
+*Cycfail* cycles to failure
+
+From previous analyses, we suspect that a multiplicative relationship exists between the two variables.
+
+
+```{r}
+library(s20x)
+gasturbines.df = read.table("gasturbines.txt", header = TRUE)
+head(gasturbines.df)
+```
+```{r}
+plot(Cycfail~Strampl, data = gasturbines.df)
+```
+
+
+```{r}
+eovcheck(Cycfail~Strampl, data = gasturbines.df)
+```
+
+a) Explain briefly whether the first residual plot (eovcheck(gasturbines.lm)) confirms our suspicion that there might be a multiplicative relationship?
+
+Ans: Yes because we see the fan effect in the residual plot.
+
+
+```{r}
+gasturbines2.lm = lm(log(Cycfail)~Strampl, data = gasturbines.df)
+cooks20x(gasturbines2.lm)
+```
+
+b) Does modcheck(gasturbines2.lm) show any issues with the model fitted?
+
+Ans: Data point 6 has a Cook's distance of more than 0.4. This data point appears to be significant.
+
+```{r}
+summary(gasturbines2.lm)
+```
+
+
+```{r}
+gasturbines3.lm = lm(log(Cycfail)~Strampl, data = gasturbines.df[-6, ])
+summary(gasturbines3.lm)
+```
+
+
+```{r}
+cooks20x(gasturbines3.lm)
+```
+
+
+
+
+
+```{r}
+cooks.distance(gasturbines3.lm)
+```
+```{r}
+summary(gasturbines3.lm)
+```
+d) Write down the equation of the final model fitted
+
+Ans: log(Cycfaili) = meanStrampl + ei where ei ~ iid N(0, sd^2).
+
+e) Which of the two back-transformed confidence intervals for the regression coefficient of Strampl
+should we interpret? Explain your answer briefly.
+
+Ans: Interval 2 because interval 1 is too wide.
+
+```{r}
+100 * (exp(confint(gasturbines2.lm)) - 1)
+```
+
+
+f) Write a brief Executive Summary of the main conclusions you would draw from the analysis.
+
+Ans: 
+
+
+g) Give a prediction for a single gas turbine’s cycles to failure for a strain amplitude of 0.01. Can
+we trust this prediction?
+
+Reference:
+Arakere N. K., Swanson G. G. (2000) Effect of Crystal Orientation on Fatigue Failure of Single Crystal
+Nickel Base Turbine Blade Superalloys. ASME. J. Eng. Gas Turbines Power. 124(1):161-176.
+Devore, J. L. (2016). Probability and Statistics for Engineering and the Sciences, 9e. Boston, MA:
+Cengage Learning.
+

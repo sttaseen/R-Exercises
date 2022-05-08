@@ -1,0 +1,44 @@
+---
+title: "Simple Linear Regression"
+output: html_notebook
+---
+
+
+```{r}
+library(s20x)
+stats20x.df = read.table("STATS20x.txt", header = TRUE)
+plot(Exam ~ Test, data = stats20x.df)
+```
+```{r}
+trendscatter(Exam~Test, data=stats20x.df)
+```
+
+```{r}
+examtest.fit = lm(Exam~Test, data = stats20x.df)
+summary(examtest.fit)
+```
+```{r}
+names(summary(examtest.fit))
+```
+
+
+```{r}
+summary(examtest.fit)$coeff
+```
+
+```{r}
+plot(Exam~Test, data=stats20x.df)
+abline(a=9.08, b=3.79, lty=2, lwd = 3, col="blue")
+```
+
+```{r}
+stats20x.df[21,]
+```
+
+```{r}
+examtest.fit$fitted[21]
+```
+```{r}
+examtest.fit$residual[21]
+```
+

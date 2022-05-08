@@ -1,0 +1,36 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+I couldn't get my hands on the data file. So, I will be using this notebook to answer the questions.
+
+a) Comment briefly on the exploratory analysis of this dataset.
+
+Ans: The median price per gram near Mexico is $653 which is lower than that for near California which is $1875. The prices for northern California seems to be more spread apart than the ones in Near Mexico due to outliers. Both groups look to be right-skewed,
+
+b) What can we conclude from the output of
+eovcheck(PricePerGram ∼ reg, data = heroin.df)?
+
+Ans: The variances of the two regions doesn't look to be the same. The Californian prices are more spread apart.
+
+
+c) What can we conclude from the p-value of the t-test?
+
+Ans: We have strong evidence against the null hypothesis which is that the median prices for drugs is the same for both regions. This suggests that our method might be working.
+
+
+d) Write down the effects model equation of the model.
+
+Ans: log(pricesij) = mean +ai + eij where ai is the effect of being in the group and eij ~ iid N(0, sd^2).
+
+e) Write a brief Executive Summary detailing the findings from this analysis.
+
+Ans: We are interested in comparing the Brown Heroin prices between two regions: Northern California and near Mexican border in the US based on data collected by undercover federal agents.
+
+We had to transform our data in order to perform our analysis. As a result, our estimates are based on the difference in median prices of drugs in these two regions and is in multiplicative terms.
+
+We found that the median prices for this drug is more in Northern California than near the Mexican border.
+
+We estimate the median price for this drug near the Mexican border is between 14% and 64% lower than the price in Northern California.
+
